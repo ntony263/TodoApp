@@ -32,29 +32,11 @@ public class MainActivity extends AppCompatActivity {
         //items= new ArrayList<>();
         itemsAdapter= new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
-        //readItems();
-        //Toast.makeText(getApplicationContext(), items.toString(), Toast.LENGTH_LONG).show();
-        //items.add("First Item");
-        //items.add("Second Item");
-        //Toast.makeText(getApplicationContext(), items.toString(), Toast.LENGTH_LONG).show();
-        //Toast.makeText(this,items.get(1), Toast.LENGTH_LONG).show();
-        //setupListViewLongListener();
+
         setupListViewListener();
     }
 
-    /*private void setupListViewLongListener() {
-        lvItems.setOnItemLongClickListener(
-                new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id){
-                        items.remove(pos);
-                        itemsAdapter.notifyDataSetChanged();
-                        writeItems();
-                        return true;
-                    }
-                }
-        );
-    }*/
+
 
     private void setupListViewListener() {
         lvItems.setOnItemLongClickListener(
