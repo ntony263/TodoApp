@@ -1,5 +1,6 @@
 package com.codepath.simpletodoapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,9 +21,9 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        readItems();
+        //readItems();
         String extra = getIntent().getStringExtra("data");
-        id = getIntent().getLongExtra("id",0);
+       // id = getIntent().getLongExtra("id",0);
         if (extra != null){
             //Toast.makeText(getApplicationContext(), extra, Toast.LENGTH_LONG).show();
             EditText etNewItem = (EditText)findViewById(R.id.etEdit0);
@@ -35,8 +36,14 @@ public class EditActivity extends AppCompatActivity {
         EditText etNewItem = (EditText)findViewById(R.id.etEdit0);
         String newValue = etNewItem.getText().toString();
         //
-        items.set((int)id,newValue);
-        writeItems();
+        Intent intent=new Intent();
+        intent.putExtra("EtaskName",newValue);
+        intent.putExtra("EdueDate","29/9/2016");
+        intent.putExtra("Epriority","high");
+        setResult(1,intent);
+
+        //items.set((int)id,newValue);
+       // writeItems();
         Toast.makeText(getApplicationContext(),"Saved!", Toast.LENGTH_LONG).show();
         finish();
         //Intent toMainIntent = new Intent(this, MainActivity.class);
@@ -69,6 +76,8 @@ public class EditActivity extends AppCompatActivity {
 
     public void toCancel(View view) {
         Toast.makeText(getApplicationContext(),"Change dimissed!", Toast.LENGTH_LONG).show();
+        Intent intent=new Intent();
+        setResult(1,intent);
         finish();
     }
 }
