@@ -116,11 +116,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onAddItem(View view) {
-        EditText etNewItem = (EditText)findViewById(R.id.etNewItem);
-        String itemText = etNewItem.getText().toString();
+        //EditText etNewItem = (EditText)findViewById(R.id.etNewItem);
+        //String itemText = etNewItem.getText().toString();
         /*itemsAdapter.add(itemText);
         etNewItem.setText("");*/
-
+        TaskProperty listItem =(TaskProperty) lvItems.getItemAtPosition(position);
+        Intent toEditIntent = new Intent(MainActivity.this, EditActivity.class);
+        toEditIntent.putExtra("EtaskName",listItem.taskName);
+        toEditIntent.putExtra("EdueDate",listItem.taskName);
+        toEditIntent.putExtra("Epriority",listItem.taskName);
+        toEditIntent.putExtra("Eid", listItem.id);
+        startActivityForResult(toEditIntent, 1);;
         //writeItems();
     }
 
