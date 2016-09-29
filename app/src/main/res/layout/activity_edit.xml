@@ -17,7 +17,25 @@
         android:layout_below="@+id/tvEdit0"
         android:layout_alignParentStart="true"
         android:layout_marginTop="36dp" />
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etEdit1"
+        android:elegantTextHeight="false"
+        android:layout_below="@+id/etEdit0"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="36dp" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etEdit2"
+        android:elegantTextHeight="false"
+        android:layout_below="@+id/etEdit1"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="36dp" />
+    
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +52,7 @@
         android:text="Save"
         android:id="@+id/btEdit0"
         android:onClick="onSaveItem"
-        android:layout_below="@+id/etEdit0"
+        android:layout_below="@+id/etEdit2"
         android:layout_alignParentStart="true" />
 
     <Button
