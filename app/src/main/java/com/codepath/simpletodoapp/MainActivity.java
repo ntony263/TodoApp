@@ -104,8 +104,11 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapter, View item, int position, long id) {
                 TaskProperty listItem =(TaskProperty) lvItems.getItemAtPosition(position);
                 Intent toEditIntent = new Intent(MainActivity.this, EditActivity.class);
-                toEditIntent.putExtra("data", listItem.taskName);
-                toEditIntent.putExtra("id", id);
+                //toEditIntent.putExtra("ETASKNA", listItem.taskName);
+                toEditIntent.putExtra("EtaskName",listItem.taskName);
+                toEditIntent.putExtra("EdueDate",listItem.taskName);
+                toEditIntent.putExtra("Epriority",listItem.taskName);
+                toEditIntent.putExtra("Eid", listItem.id);
                 startActivityForResult(toEditIntent, 1);;
             }
         });
@@ -158,16 +161,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
-        if(requestCode==1)
-        {
-
+        if(requestCode==1 & data.getStringExtra("ESAVE")=="save"){
             String taskName=data.getStringExtra("EtaskName");
             String dueDate=data.getStringExtra("EdueDate");
             String priority=data.getStringExtra("Epriority");
+            String id =data.getStringExtra("Eid");
             try {
                 dbhp0 = new dbTodoHelper(MainActivity.this);
                 db = dbhp0.getReadableDatabase();
@@ -175,7 +176,9 @@ public class MainActivity extends AppCompatActivity {
                 todoRow.put("TASKNAME", taskName);
                 todoRow.put("DUEDATE", dueDate);
                 todoRow.put("PRIORITY", priority);
-                db.insert("TODOLIST",null, todoRow);
+                
+                db.update("TODOLIST", todoRow, "id" + "=" + id, null);
+                //db.insert("TODOLIST",null, todoRow);
                 Cursor cursor = db.query("TODOLIST",
                         new String[] {"TASKNAME", "DUEDATE", "PRIORITY","_id"},
                         null,
