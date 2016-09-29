@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent toEditIntent = new Intent(MainActivity.this, EditActivity.class);
                 //toEditIntent.putExtra("ETASKNA", listItem.taskName);
                 toEditIntent.putExtra("EtaskName",listItem.taskName);
-                toEditIntent.putExtra("EdueDate",listItem.taskName);
-                toEditIntent.putExtra("Epriority",listItem.taskName);
+                toEditIntent.putExtra("EdueDate",listItem.dueDate);
+                toEditIntent.putExtra("Epriority",listItem.dueDate);
                 toEditIntent.putExtra("Eid", listItem.id);
                 startActivityForResult(toEditIntent, 1);;
             }
@@ -122,10 +122,10 @@ public class MainActivity extends AppCompatActivity {
         etNewItem.setText("");*/
         TaskProperty listItem =(TaskProperty) lvItems.getItemAtPosition(position);
         Intent toEditIntent = new Intent(MainActivity.this, EditActivity.class);
-        toEditIntent.putExtra("EtaskName",listItem.taskName);
-        toEditIntent.putExtra("EdueDate",listItem.taskName);
-        toEditIntent.putExtra("Epriority",listItem.taskName);
-        toEditIntent.putExtra("Eid", listItem.id);
+        toEditIntent.putExtra("EtaskName","null");
+        toEditIntent.putExtra("EdueDate","null");
+        toEditIntent.putExtra("Epriority","null");
+        toEditIntent.putExtra("Eid", "null");
         startActivityForResult(toEditIntent, 1);;
         //writeItems();
     }
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
-        if(requestCode==1 & data.getStringExtra("ESAVE")=="save"){
+        if(requestCode==1 & data.getStringExtra("ESAVE")=="save"){ //Should add ESAVE=new
             String taskName=data.getStringExtra("EtaskName");
             String dueDate=data.getStringExtra("EdueDate");
             String priority=data.getStringExtra("Epriority");
