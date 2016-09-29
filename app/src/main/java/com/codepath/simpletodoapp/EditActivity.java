@@ -74,7 +74,7 @@ public class EditActivity extends AppCompatActivity {
         //startActivity(toMainIntent);
     }
 
-    private void writeItems (){
+    /*private void writeItems (){
         File filesDir = getFilesDir();
         File todoFile = new File(filesDir,"todo.txt");
         try {
@@ -95,7 +95,7 @@ public class EditActivity extends AppCompatActivity {
         catch (IOException e){
             items = new ArrayList<String>();
         }
-    }
+    }*/
 
 
     public void toCancel(View view) {
