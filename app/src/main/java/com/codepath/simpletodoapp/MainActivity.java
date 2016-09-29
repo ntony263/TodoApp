@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,9 +19,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<TaskProperty> threeStringsList;
+    ArrayList<TaskProperty> listOfTaskProperty;
     ArrayAdapter<String> itemsAdapter;
-    CustomListView threeHorizontalTextViewsAdapter;
+    CustomListView customListView0;
     ListView lvItems;
     SQLiteOpenHelper dbhp0;
     SQLiteDatabase db;
@@ -31,14 +30,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*readItems();
-        //Toast.makeText(this,items.get(0), Toast.LENGTH_LONG).show();
-        lvItems=(ListView)findViewById(R.id.lvItems);
-        //items= new ArrayList<>();
-        itemsAdapter= new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        lvItems.setAdapter(itemsAdapter);*/
+
+        setTitle("Todo List");
+        //getActionBar().setIcon(R.drawable.my_icon);
+
+        //Load existed data in database and put into view
         try {
-            //Toast.makeText(this,"DB!!!!", Toast.LENGTH_LONG).show();
             dbhp0 = new dbTodoHelper(this);
             db = dbhp0.getReadableDatabase();
             Cursor cursor = db.query("TODOLIST",
@@ -47,13 +44,10 @@ public class MainActivity extends AppCompatActivity {
                     null,
                     null,null,null
                     );
-
-            //ArrayList<TaskProperty> threeStringsList = new ArrayList<>();
-            threeStringsList = dbToCustomAdapter(cursor);
+            listOfTaskProperty = dbToCustomAdapter(cursor);
             lvItems=(ListView)findViewById(R.id.lvItems);
-            threeHorizontalTextViewsAdapter = new CustomListView(this, threeStringsList );
-
-            lvItems.setAdapter(threeHorizontalTextViewsAdapter);
+            customListView0 = new CustomListView(this, listOfTaskProperty );
+            lvItems.setAdapter(customListView0);
             cursor.close();
             db.close();
         }
@@ -71,23 +65,20 @@ public class MainActivity extends AppCompatActivity {
                 new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> adapter, View item, int pos, long id){
-                        /*items.remove(pos);
-                        itemsAdapter.notifyDataSetChanged();
-                        writeItems();*/
                         try {
-                            Toast.makeText(MainActivity.this,"This is: "+ threeHorizontalTextViewsAdapter.getItem(pos).id, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(MainActivity.this,"This is: "+ customListView0.getItem(pos).id, Toast.LENGTH_LONG).show();
                             dbhp0 = new dbTodoHelper(MainActivity.this);
                             db = dbhp0.getReadableDatabase();
-                            db.delete("TODOLIST", "_id" + "=" + threeHorizontalTextViewsAdapter.getItem(pos).id , null);
+                            db.delete("TODOLIST", "_id" + "=" + customListView0.getItem(pos).id , null);
                             Cursor cursor = db.query("TODOLIST",
                                     new String[] {"TASKNAME", "DUEDATE", "PRIORITY","_id"},
                                     null,
                                     null,
                                     null,null,null
                             );
-                            threeStringsList = dbToCustomAdapter(cursor);
-                            threeHorizontalTextViewsAdapter = new CustomListView(MainActivity.this, threeStringsList );
-                            lvItems.setAdapter(threeHorizontalTextViewsAdapter);
+                            listOfTaskProperty = dbToCustomAdapter(cursor);
+                            customListView0 = new CustomListView(MainActivity.this, listOfTaskProperty );
+                            lvItems.setAdapter(customListView0);
                             db.close();
                             cursor.close();
                         }
@@ -107,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 //toEditIntent.putExtra("ETASKNA", listItem.taskName);
                 toEditIntent.putExtra("EtaskName",listItem.taskName);
                 toEditIntent.putExtra("EdueDate",listItem.dueDate);
-                toEditIntent.putExtra("Epriority",listItem.dueDate);
+                toEditIntent.putExtra("Epriority",listItem.priority);
                 toEditIntent.putExtra("Eid", listItem.id);
                 startActivityForResult(toEditIntent, 1);;
             }
@@ -116,42 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onAddItem(View view) {
-        //EditText etNewItem = (EditText)findViewById(R.id.etNewItem);
-        //String itemText = etNewItem.getText().toString();
-        /*itemsAdapter.add(itemText);
-        etNewItem.setText("");*/
-        TaskProperty listItem =(TaskProperty) lvItems.getItemAtPosition(position);
         Intent toEditIntent = new Intent(MainActivity.this, EditActivity.class);
-        toEditIntent.putExtra("EtaskName","null");
-        toEditIntent.putExtra("EdueDate","null");
-        toEditIntent.putExtra("Epriority","null");
-        toEditIntent.putExtra("Eid", "null");
         startActivityForResult(toEditIntent, 1);;
-        //writeItems();
     }
 
-    /*private void readItems(){
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            //items = new ArrayList<String>(FileUtils.readLines(todoFile));
-            //Toast.makeText(getApplicationContext(), items.toString(), Toast.LENGTH_LONG).show();
-        }
-        catch (IOException e){
-            //items = new ArrayList<String>();
-        }
-    }*/
-
-   /* private void writeItems (){
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            FileUtils.writeLines(todoFile, items);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-    }*/
 
     private ArrayList<TaskProperty> dbToCustomAdapter (Cursor cursor){
         ArrayList<TaskProperty> forReturn = new ArrayList<>();
@@ -169,54 +128,69 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        // check if the request code is same as what is passed  here it is 2
-        if(requestCode==1 & data.getStringExtra("ESAVE")=="save"){ //Should add ESAVE=new
-            String taskName=data.getStringExtra("EtaskName");
-            String dueDate=data.getStringExtra("EdueDate");
-            String priority=data.getStringExtra("Epriority");
-            String id =data.getStringExtra("Eid");
-            try {
-                dbhp0 = new dbTodoHelper(MainActivity.this);
-                db = dbhp0.getReadableDatabase();
-                ContentValues todoRow = new ContentValues();
-                todoRow.put("TASKNAME", taskName);
-                todoRow.put("DUEDATE", dueDate);
-                todoRow.put("PRIORITY", priority);
-                
-                db.update("TODOLIST", todoRow, "id" + "=" + id, null);
-                //db.insert("TODOLIST",null, todoRow);
-                Cursor cursor = db.query("TODOLIST",
-                        new String[] {"TASKNAME", "DUEDATE", "PRIORITY","_id"},
-                        null,
-                        null,
-                        null,null,null
-                );
-                threeStringsList = dbToCustomAdapter(cursor);
-                threeHorizontalTextViewsAdapter = new CustomListView(MainActivity.this, threeStringsList );
-                lvItems.setAdapter(threeHorizontalTextViewsAdapter);
-                db.close();
-                cursor.close();
+        String flag = data.getStringExtra("ESAVE");
+        if(requestCode==1) {
+            if (flag.equals("save")) {
+                Toast.makeText(getApplicationContext(), "save", Toast.LENGTH_LONG).show();
+                String taskName = data.getStringExtra("EtaskName");
+                String dueDate = data.getStringExtra("EdueDate");
+                String priority = data.getStringExtra("Epriority");
+                String id = data.getStringExtra("Eid");
+                try {
+                    dbhp0 = new dbTodoHelper(MainActivity.this);
+                    db = dbhp0.getReadableDatabase();
+                    ContentValues todoRow = new ContentValues();
+                    todoRow.put("TASKNAME", taskName);
+                    todoRow.put("DUEDATE", dueDate);
+                    todoRow.put("PRIORITY", priority);
+                    db.update("TODOLIST", todoRow, "_id=?", new String[] {String.valueOf(id)});
+                    Cursor cursor = db.query("TODOLIST",
+                            new String[]{"TASKNAME", "DUEDATE", "PRIORITY", "_id"},
+                            null,
+                            null,
+                            null, null, null
+                    );
+                    listOfTaskProperty = dbToCustomAdapter(cursor);
+                    customListView0 = new CustomListView(MainActivity.this, listOfTaskProperty);
+                    lvItems.setAdapter(customListView0);
+                    db.close();
+                    cursor.close();
+                } catch (SQLiteException e) {
+                    Toast.makeText(MainActivity.this, "error", Toast.LENGTH_LONG).show();
+                }
             }
-            catch (SQLiteException e){
-                Toast.makeText(MainActivity.this,"error", Toast.LENGTH_LONG).show();
+            else {
+                if (flag.equals("cancel")) {
+                    Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "new", Toast.LENGTH_LONG).show();
+                    String taskName = data.getStringExtra("EtaskName");
+                    String dueDate = data.getStringExtra("EdueDate");
+                    String priority = data.getStringExtra("Epriority");
+                    try {
+                        dbhp0 = new dbTodoHelper(MainActivity.this);
+                        db = dbhp0.getReadableDatabase();
+                        ContentValues todoRow = new ContentValues();
+                        todoRow.put("TASKNAME", taskName);
+                        todoRow.put("DUEDATE", dueDate);
+                        todoRow.put("PRIORITY", priority);
+                        db.insert("TODOLIST", null, todoRow);
+                        Cursor cursor = db.query("TODOLIST",
+                                new String[]{"TASKNAME", "DUEDATE", "PRIORITY", "_id"},
+                                null,
+                                null,
+                                null, null, null
+                        );
+                        listOfTaskProperty = dbToCustomAdapter(cursor);
+                        customListView0 = new CustomListView(MainActivity.this, listOfTaskProperty);
+                        lvItems.setAdapter(customListView0);
+                        db.close();
+                        cursor.close();
+                    } catch (SQLiteException e) {
+                        Toast.makeText(MainActivity.this, "error", Toast.LENGTH_LONG).show();
+                    }
+                }
             }
-
-            /*dbhp0 = new dbTodoHelper(MainActivity.this);
-            db = dbhp0.getReadableDatabase();
-            ContentValues todoRow = new ContentValues();
-            todoRow.put("TASKNAME", taskName);
-            todoRow.put("DUEDATE", dueDate);
-            todoRow.put("PRIORITY", priority);
-            db.insert("TODOLIST",null, todoRow);*/
         }
-    }
-
-    @Override
-    protected void onRestart(){
-        super.onRestart();
-        //readItems();
-        //itemsAdapter= new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        //lvItems.setAdapter(itemsAdapter);
-        //Toast.makeText(getApplicationContext(),itemsAdapter.getItem(1), Toast.LENGTH_LONG).show();
     }
 }

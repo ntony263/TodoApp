@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class dbTodoHelper extends SQLiteOpenHelper{
-    private static final String NAME_DB_TODO = "dbTodo0";
+    private static final String NAME_DB_TODO = "dbTodo01";
     private static final int VERSION_DB_TODO = 1;
     private static final String DATABASE_TABLE = "TODOLIST";
 
@@ -30,11 +30,7 @@ public class dbTodoHelper extends SQLiteOpenHelper{
 
     @Override
     public void onOpen (SQLiteDatabase db){
-        /*insertTask(db,"This is database 1","27/9/2016","high");
-        insertTask(db,"This is database 2","30/9/2016","low");
-        insertTask(db,"This is database 3","01/10/2016","low");
-        insertTask(db,"This is database 4","01/10/2016","low");*/
-        //deleteTitle(db, "4");
+
     }
 
     private static void insertTask (SQLiteDatabase db, String taskName, String dueDate, String priority){
