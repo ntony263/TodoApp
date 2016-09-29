@@ -15,31 +15,55 @@ import java.util.ArrayList;
 
 public class EditActivity extends AppCompatActivity {
     ArrayList<String> items;
-    long id;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         //readItems();
-        String extra = getIntent().getStringExtra("data");
-       // id = getIntent().getLongExtra("id",0);
-        if (extra != null){
-            //Toast.makeText(getApplicationContext(), extra, Toast.LENGTH_LONG).show();
-            EditText etNewItem = (EditText)findViewById(R.id.etEdit0);
-            //etNewItem.setText(extra);
-            etNewItem.append(extra);
+        String eTaskName = getIntent().getStringExtra("EtaskName");
+        String edueDate = getIntent().getStringExtra("EdueDate");
+        String ePriority = getIntent().getStringExtra("Epriority");
+        id = getIntent().getStringExtra("Eid");
+        EditText etNewItem0 = (EditText)findViewById(R.id.etEdit0);
+        EditText etNewItem1 = (EditText)findViewById(R.id.etEdit1);
+        EditText etNewItem2 = (EditText)findViewById(R.id.etEdit2);
+        if (eTaskName != null){
+            etNewItem0.append(eTaskName);
+        }
+        else {
+            etNewItem0.append("");
+        }
+        if (edueDate != null){
+            etNewItem1.append(edueDate);
+        }
+        else {
+            etNewItem1.append("");
+        }
+        if (ePriority != null){
+            etNewItem2.append(ePriority);
+        }
+        else {
+            etNewItem2.append("");
         }
     }
 
     public void onSaveItem(View view) {
-        EditText etNewItem = (EditText)findViewById(R.id.etEdit0);
-        String newValue = etNewItem.getText().toString();
+        EditText etNewItem0 = (EditText)findViewById(R.id.etEdit0);
+        EditText etNewItem1 = (EditText)findViewById(R.id.etEdit1);
+        EditText etNewItem2 = (EditText)findViewById(R.id.etEdit2);
+        //String newValue = etNewItem.getText().toString();
+        String eTaskName = etNewItem0.getText().toString();
+        String edueDate = etNewItem1.getText().toString();
+        String ePriority = etNewItem2.getText().toString();
         //
         Intent intent=new Intent();
-        intent.putExtra("EtaskName",newValue);
-        intent.putExtra("EdueDate","29/9/2016");
-        intent.putExtra("Epriority","high");
+        intent.putExtra("EtaskName",eTaskName);
+        intent.putExtra("EdueDate",edueDate);
+        intent.putExtra("Epriority",ePriority);
+        intent.putExtra("Eid",id);
+        intent.putExtra("ESAVE","save");
         setResult(1,intent);
 
         //items.set((int)id,newValue);
@@ -77,6 +101,7 @@ public class EditActivity extends AppCompatActivity {
     public void toCancel(View view) {
         Toast.makeText(getApplicationContext(),"Change dimissed!", Toast.LENGTH_LONG).show();
         Intent intent=new Intent();
+        intent.putExtra("ESAVE","cancel");
         setResult(1,intent);
         finish();
     }
