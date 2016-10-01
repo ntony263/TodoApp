@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("Todo List");
 
+
         //getActionBar().setIcon(R.drawable.my_icon);
         //showEditDialog();
 
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 toEditIntent.putExtra("EdueDate",listItem.dueDate);
                 toEditIntent.putExtra("Epriority",listItem.priority);
                 toEditIntent.putExtra("Eid", listItem.id);
-                startActivityForResult(toEditIntent, 1);;
+                startActivityForResult(toEditIntent, 1);
             }
         });
     }
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onAddItem(View view) {
         Intent toEditIntent = new Intent(MainActivity.this, EditActivity.class);
-        startActivityForResult(toEditIntent, 1);;
+        startActivityForResult(toEditIntent, 1);
     }
 
 
