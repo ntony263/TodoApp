@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,9 +31,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setTitle("Todo List");
+
         //getActionBar().setIcon(R.drawable.my_icon);
+        //showEditDialog();
 
         //Load existed data in database and put into view
         try {
@@ -193,4 +195,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    private void showEditDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        AddItemDialogFragment editNameDialogFragment = AddItemDialogFragment.newInstance("Some Title");
+        editNameDialogFragment.show(fm, "fragment_edit_name");
+    }
+
 }

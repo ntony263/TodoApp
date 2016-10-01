@@ -11,17 +11,17 @@
     tools:context="com.codepath.simpletodoapp.MainActivity">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" \n          Add Item          \n"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="+"
         android:id="@+id/btnAddItem"
         android:onClick="onAddItem"
-        android:textSize="25dp"
+        android:textSize="50dp"
         android:textStyle="normal"
-        android:textColor="#000000"
+        android:textColor="#FFF"
         android:clickable="true"
-        android:background="#d8d8d8"
-        android:layout_centerHorizontal="true"
+        android:background="@drawable/roundedbutton"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:fontFamily="@string/abc_capital_on" />
 
