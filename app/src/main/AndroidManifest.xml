@@ -17,6 +17,7 @@
         </activity>
         <activity android:name=".EditActivity" />
         <activity android:name=".CustomListView" />
+
         <!--<activity android:name=".AddItemDialogFragment" />-->
         <!--<activity android:name=".DatePickerDialogFragment"></activity>-->
     </application>
