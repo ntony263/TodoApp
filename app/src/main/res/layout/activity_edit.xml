@@ -13,23 +13,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Edit Item Below:"
-        android:id="@+id/tvEdit0"
-        android:layout_marginTop="39dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Task Name"
         android:textStyle="bold"
         android:id="@+id/textView"
         android:layout_marginTop="19dp"
-        android:layout_below="@+id/tvEdit0"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="25dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -37,8 +27,7 @@
         android:id="@+id/etEdit0"
         android:elegantTextHeight="false"
         android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true"
-        />
+        android:layout_toEndOf="@+id/textView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -47,17 +36,20 @@
         android:text="Priority"
         android:textStyle="bold"
         android:id="@+id/textView2"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="96dp"
+        android:textSize="25dp"
         android:layout_below="@+id/etEdit0"
         android:layout_alignParentStart="true" />
 
-    <EditText
+    <Spinner
+        android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etEdit1"
-        android:elegantTextHeight="false"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentStart="true" />
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/etEdit0" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -66,34 +58,49 @@
         android:text="Due Date"
         android:textStyle="bold"
         android:id="@+id/textView3"
-        android:layout_below="@id/etEdit1"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:textSize="25dp"
+        android:layout_below="@+id/spinner1"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="27dp" />
 
-    <EditText
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+
+        android:text="Due Date"
+        android:id="@+id/textView4"
+        android:onClick="toEditDate"
+        android:textSize="25dp"
+        android:layout_alignTop="@+id/textView3"
+        android:layout_alignStart="@+id/spinner1" />
+
+    <!--<EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/etEdit2"
         android:elegantTextHeight="false"
         android:layout_below="@+id/textView3"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true" />-->
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
         android:text="Save"
         android:id="@+id/btEdit0"
         android:onClick="onSaveItem"
-        android:layout_below="@+id/etEdit2"
+        android:textSize="25dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
         android:text="CANCEL"
         android:id="@+id/BT01"
         android:onClick="toCancel"
+        android:textSize="25dp"
         android:layout_alignTop="@+id/btEdit0"
-        android:layout_toEndOf="@+id/btEdit0" />
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

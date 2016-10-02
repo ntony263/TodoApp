@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,16 +32,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("Todo List");
 
-
-        //getActionBar().setIcon(R.drawable.my_icon);
-        //showEditDialog();
-
         //Load existed data in database and put into view
         try {
             dbhp0 = new dbTodoHelper(this);
             db = dbhp0.getReadableDatabase();
             Cursor cursor = db.query("TODOLIST",
-                    new String[] {"TASKNAME", "DUEDATE", "PRIORITY","_id"},
+                    new String[] {"TASKNAME","PRIORITY","DUEDATE","_id"},
                     null,
                     null,
                     null,null,null
@@ -74,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                             db = dbhp0.getReadableDatabase();
                             db.delete("TODOLIST", "_id" + "=" + customListView0.getItem(pos).id , null);
                             Cursor cursor = db.query("TODOLIST",
-                                    new String[] {"TASKNAME", "DUEDATE", "PRIORITY","_id"},
+                                    new String[] {"TASKNAME","PRIORITY", "DUEDATE","_id"},
                                     null,
                                     null,
                                     null,null,null
@@ -134,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         String flag = data.getStringExtra("ESAVE");
         if(requestCode==1) {
             if (flag.equals("save")) {
-                Toast.makeText(getApplicationContext(), "save", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_LONG).show();
                 String taskName = data.getStringExtra("EtaskName");
                 String dueDate = data.getStringExtra("EdueDate");
                 String priority = data.getStringExtra("Epriority");
@@ -148,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     todoRow.put("PRIORITY", priority);
                     db.update("TODOLIST", todoRow, "_id=?", new String[] {String.valueOf(id)});
                     Cursor cursor = db.query("TODOLIST",
-                            new String[]{"TASKNAME", "DUEDATE", "PRIORITY", "_id"},
+                            new String[]{"TASKNAME",  "PRIORITY", "DUEDATE", "_id"},
                             null,
                             null,
                             null, null, null
@@ -164,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else {
                 if (flag.equals("cancel")) {
-                    Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Change dismiss", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "new", Toast.LENGTH_LONG).show();
                     String taskName = data.getStringExtra("EtaskName");
@@ -179,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                         todoRow.put("PRIORITY", priority);
                         db.insert("TODOLIST", null, todoRow);
                         Cursor cursor = db.query("TODOLIST",
-                                new String[]{"TASKNAME", "DUEDATE", "PRIORITY", "_id"},
+                                new String[]{"TASKNAME", "PRIORITY","DUEDATE", "_id"},
                                 null,
                                 null,
                                 null, null, null
@@ -196,12 +191,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-    private void showEditDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        AddItemDialogFragment editNameDialogFragment = AddItemDialogFragment.newInstance("Some Title");
-        editNameDialogFragment.show(fm, "fragment_edit_name");
-    }
-
 }

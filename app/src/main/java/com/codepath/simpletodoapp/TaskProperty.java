@@ -6,7 +6,7 @@ public class TaskProperty {
     public String priority;
     public String id;
 
-    public TaskProperty(String taskName, String dueDate, String priority, String id) {
+    public TaskProperty(String taskName, String priority,String dueDate, String id) {
         this.taskName = taskName;
         this.dueDate = dueDate;
         this.priority= priority;

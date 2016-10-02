@@ -26,16 +26,24 @@ public class CustomListView extends ArrayAdapter<TaskProperty> {
 
         // Lookup view for data population
         TextView tvTaskName = (TextView) convertView.findViewById(R.id.tvCustom0);
-        TextView tvPriority = (TextView) convertView.findViewById(R.id.tvCustom2);
-        TextView tvDueDate = (TextView) convertView.findViewById(R.id.tvCustom1);
+        TextView tvPriority = (TextView) convertView.findViewById(R.id.tvCustom1);
+        TextView tvDueDate = (TextView) convertView.findViewById(R.id.tvCustom2);
 
         // Put the data into the template view
         tvTaskName.setText(taskProperty.getTaskName());
         tvPriority.setText(taskProperty.getPriority());
+        tvDueDate.setText("Due date: "+taskProperty.getDueDate());
+
+        //Set priority text color
         if (taskProperty.getPriority().equals("High")){
-            tvPriority.setTextColor(Color.parseColor("#ff0000"));
+            tvPriority.setTextColor(Color.parseColor("#FF0000"));
         }
-        tvDueDate.setText(taskProperty.getDueDate());
+        else if (taskProperty.getPriority().equals("Medium")){
+            tvPriority.setTextColor(Color.parseColor("#d4883a"));
+        }
+        else {
+            tvPriority.setTextColor(Color.parseColor("#3fd43a"));
+        }
         // Return the completed view to render on screen
         return convertView;
     }
